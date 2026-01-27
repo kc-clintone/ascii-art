@@ -1,0 +1,29 @@
+package main
+
+import "strings"
+
+const characterHeight = 8
+
+// Render the ASCII art for a given input string.
+func AsciiArt(input string, letterMap map[rune][]string) string {
+	outputLines := []string(nil)
+
+	for line := range strings.SplitSeq(input, "\\n") {
+		if len(line) < 1 {
+			outputLines = append(outputLines, "")
+			continue
+		}
+
+		for i := range characterHeight {
+			artLine := strings.Builder{}
+
+			for _, c := range line {
+				artLine.WriteString(letterMap[c][i])
+			}
+
+			outputLines = append(outputLines, artLine.String())
+		}
+	}
+
+	return strings.Join(outputLines, "\n")
+}
