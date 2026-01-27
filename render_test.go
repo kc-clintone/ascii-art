@@ -90,7 +90,7 @@ func TestRenderAsciiArt(t *testing.T) {
 		input := ""
 		expected := ""
 
-		output := AsciiArt(input, letterMap)
+		output := RenderAsciiArt(input, letterMap)
 
 		if output != expected {
 			t.Errorf("Expected:\n%q\nOutput:\n%q\n", expected, output)
@@ -101,7 +101,7 @@ func TestRenderAsciiArt(t *testing.T) {
 		input := `\n`
 		expected := "\n"
 
-		output := AsciiArt(input, letterMap)
+		output := RenderAsciiArt(input, letterMap)
 
 		if output != expected {
 			t.Errorf("Expected:\n%q\nOutput:\n%q\n", expected, output)
@@ -110,7 +110,7 @@ func TestRenderAsciiArt(t *testing.T) {
 		input = `\n\n`
 		expected = "\n\n"
 
-		output = AsciiArt(input, letterMap)
+		output = RenderAsciiArt(input, letterMap)
 
 		if output != expected {
 			t.Errorf("Expected:\n%q\nOutput:\n%q\n", expected, output)
@@ -128,7 +128,7 @@ func TestRenderAsciiArt(t *testing.T) {
 			"      \n" +
 			"      \n"
 
-		output := AsciiArt(input, letterMap)
+		output := RenderAsciiArt(input, letterMap)
 
 		if output != expected {
 			t.Errorf("Expected:\n%q\nOutput:\n%q\n", expected, output)
@@ -146,7 +146,7 @@ func TestRenderAsciiArt(t *testing.T) {
 			"       \n" +
 			"       \n"
 
-		output := AsciiArt(input, letterMap)
+		output := RenderAsciiArt(input, letterMap)
 
 		if output != expected {
 			t.Errorf("Expected:\n%q\nOutput:\n%q\n", expected, output)
@@ -164,7 +164,7 @@ func TestRenderAsciiArt(t *testing.T) {
 			"  \\____/   ______    \\____/  \n" +
 			"          |______|           \n"
 
-		output := AsciiArt(input, letterMap)
+		output := RenderAsciiArt(input, letterMap)
 
 		if output != expected {
 			t.Errorf("Expected:\n%q\nOutput:\n%q\n", expected, output)
@@ -190,7 +190,7 @@ func TestRenderAsciiArt(t *testing.T) {
 			"        \n" +
 			"        \n"
 
-		output := AsciiArt(input, letterMap)
+		output := RenderAsciiArt(input, letterMap)
 
 		if output != expected {
 			t.Errorf("Expected:\n%q\nOutput:\n%q\n", expected, output)
@@ -215,7 +215,7 @@ func TestRenderAsciiArt(t *testing.T) {
 			"        \n" +
 			"        \n"
 
-		output = AsciiArt(input, letterMap)
+		output = RenderAsciiArt(input, letterMap)
 
 		if output != expected {
 			t.Errorf("Expected:\n%q\nOutput:\n%q\n", expected, output)

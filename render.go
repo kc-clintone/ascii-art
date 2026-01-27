@@ -5,7 +5,7 @@ import "strings"
 const characterHeight = 8
 
 // Render the ASCII art for a given input string.
-func AsciiArt(input string, letterMap map[rune][]string) string {
+func RenderAsciiArt(input string, letterMap map[rune][]string) string {
 	outputLines := []string(nil)
 
 	for line := range strings.SplitSeq(input, "\\n") {

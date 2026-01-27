@@ -23,6 +23,6 @@ func main() {
 	}
 
 	// rendering the Art
-	result := AsciiArt(input, letterMap)
+	result := RenderAsciiArt(input, letterMap)
 	fmt.Print(result)
 }
