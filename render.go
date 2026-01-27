@@ -25,5 +25,11 @@ func AsciiArt(input string, letterMap map[rune][]string) string {
 		}
 	}
 
-	return strings.Join(outputLines, "\n")
+	output := strings.Join(outputLines, "\n")
+
+	if len(strings.TrimSpace(output)) > 0 {
+		output += "\n"
+	}
+
+	return output
 }
