@@ -31,3 +31,13 @@ func withArgs(args []string, fn func()) {
 	os.Args = args
 	fn()
 }
+// testing the program -- no arguments provided
+func NoArguments(t *testing.T) {
+	output := captureOutput(t, func() {
+		withArgs([]string{"app"}, main)
+	})
+
+	if output != "" {
+		t.Fatalf("expected no output, got: %q", output)
+	}
+}
