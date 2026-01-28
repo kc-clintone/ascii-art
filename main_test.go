@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"os"
+	"strings"
 	"testing"
 )
 
@@ -41,3 +42,15 @@ func NoArguments(t *testing.T) {
 		t.Fatalf("expected no output, got: %q", output)
 	}
 }
+
+// ttesting the program -- missing input file (no standard.txt)
+func MissingInputFile(t *testing.T) {
+	output := captureOutput(t, func() {
+		withArgs([]string{"app", "A"}, main)
+	})
+
+	if !strings.Contains(output, "Failed to load file") {
+		t.Fatalf("expected error message, got: %q", output)
+	}
+}
+
