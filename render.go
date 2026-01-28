@@ -8,7 +8,9 @@ const characterHeight = 8
 func RenderAsciiArt(input string, letterMap map[rune][]string) string {
 	outputLines := []string(nil)
 
-	for line := range strings.SplitSeq(input, "\\n") {
+	input = strings.ReplaceAll(input, "\\n", "\n")
+
+	for line := range strings.SplitSeq(input, "\n") {
 		if len(line) < 1 {
 			outputLines = append(outputLines, "")
 			continue

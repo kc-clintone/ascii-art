@@ -97,7 +97,7 @@ func TestRenderAsciiArt(t *testing.T) {
 		}
 	})
 
-	t.Run("newline", func(t *testing.T) {
+	t.Run("back-slash n", func(t *testing.T) {
 		input := `\n`
 		expected := "\n"
 
@@ -108,6 +108,26 @@ func TestRenderAsciiArt(t *testing.T) {
 		}
 
 		input = `\n\n`
+		expected = "\n\n"
+
+		output = RenderAsciiArt(input, letterMap)
+
+		if output != expected {
+			t.Errorf("Expected:\n%q\nOutput:\n%q\n", expected, output)
+		}
+	})
+
+	t.Run("newline", func(t *testing.T) {
+		input := "\n"
+		expected := "\n"
+
+		output := RenderAsciiArt(input, letterMap)
+
+		if output != expected {
+			t.Errorf("Expected:\n%q\nOutput:\n%q\n", expected, output)
+		}
+
+		input = "\n\n"
 		expected = "\n\n"
 
 		output = RenderAsciiArt(input, letterMap)
