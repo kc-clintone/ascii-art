@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io"
 	"os"
 	"testing"
 )
@@ -32,4 +33,38 @@ B7
 	}
 	defer os.Remove("standard.txt")
 
+	originalArgs := os.Args
+	os.Args = []string{"ascii-art", "AB"}
+	defer func() { os.Args = originalArgs }()
+
+	origStdout := os.Stdout
+	r, w, err := os.Pipe()
+	if err != nil {
+		t.Fatalf("failed to create pipe: %v", err)
+	}
+	os.Stdout = w
+
+	main()
+
+	w.Close()
+	os.Stdout = origStdout
+
+	outBytes, err := io.ReadAll(r)
+	if err != nil {
+		t.Fatalf("failed to read stdout: %v", err)
+	}
+
+		expected := "" +
+		"A0B0\n" +
+		"A1B1\n" +
+		"A2B2\n" +
+		"A3B3\n" +
+		"A4B4\n" +
+		"A5B5\n" +
+		"A6B6\n" +
+		"A7B7\n"
+
+	if string(outBytes) != expected {
+		t.Errorf("expected:\n%q\ngot:\n%q", expected, string(outBytes))
+	}
 }
