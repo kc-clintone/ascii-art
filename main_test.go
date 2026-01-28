@@ -24,24 +24,23 @@ func generateFont(upTo rune) string {
 }
 
 func TestMain(t *testing.T) {
+	tmpDir := t.TempDir()
 
-	dummy_font := generateFont('B')
-
-	err := os.WriteFile("standard.txt", []byte(dummy_font), 0644)
-	if err != nil {
-		t.Fatalf("failed to create standard.txt: %v", err)
+	fontPath := tmpDir + "/standard.txt"
+	if err := os.WriteFile(fontPath, []byte(generateFont('B')), 0644); err != nil {
+		t.Fatal(err)
 	}
-	defer os.Remove("standard.txt")
 
-	originalArgs := os.Args
+	oldWd, _ := os.Getwd()
+	defer os.Chdir(oldWd)
+	os.Chdir(tmpDir)
+
+	origArgs := os.Args
 	os.Args = []string{"ascii-art", "AB"}
-	defer func() { os.Args = originalArgs }()
+	defer func() { os.Args = origArgs }()
 
 	origStdout := os.Stdout
-	r, w, err := os.Pipe()
-	if err != nil {
-		t.Fatalf("failed to create pipe: %v", err)
-	}
+	r, w, _ := os.Pipe()
 	os.Stdout = w
 
 	main()
@@ -49,10 +48,7 @@ func TestMain(t *testing.T) {
 	w.Close()
 	os.Stdout = origStdout
 
-	outBytes, err := io.ReadAll(r)
-	if err != nil {
-		t.Fatalf("failed to read stdout: %v", err)
-	}
+	out, _ := io.ReadAll(r)
 
 		expected := "" +
 		"A0B0\n" +
@@ -64,7 +60,7 @@ func TestMain(t *testing.T) {
 		"A6B6\n" +
 		"A7B7\n"
 
-	if string(outBytes) != expected {
-		t.Errorf("expected:\n%q\ngot:\n%q", expected, string(outBytes))
+	if string(out) != expected {
+		t.Fatalf("expected %q, got %q", expected, string(out))
 	}
 }
