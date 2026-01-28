@@ -1,31 +1,31 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"os"
+	"strings"
 	"testing"
 )
 
-func TestMain_EndToEnd(t *testing.T) {
-	dummy_font := `
-A0
-A1
-A2
-A3
-A4
-A5
-A6
-A7
+func generateFont(upTo rune) string {
+	var b strings.Builder
+	for r := ' '; r <= upTo; r++ {
+		for i := range 8 {
+			b.WriteString(string(r))
+			// b.WriteString(byte('0' + i))
+			fmt.Fprintf(&b, "%d", i)
 
-B0
-B1
-B2
-B3
-B4
-B5
-B6
-B7
-`
+			b.WriteString("\n")
+		}
+		b.WriteString("\n")
+	}
+	return b.String()
+}
+
+func TestMain(t *testing.T) {
+
+	dummy_font := generateFont('B')
 
 	err := os.WriteFile("standard.txt", []byte(dummy_font), 0644)
 	if err != nil {
