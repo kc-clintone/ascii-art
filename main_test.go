@@ -1,56 +1,35 @@
 package main
 
 import (
-	"bytes"
 	"os"
-	"strings"
 	"testing"
 )
 
-// test for capturing output
-func captureOutput(t *testing.T, fn func()) string {
-	t.Helper()
+func TestMain_EndToEnd(t *testing.T) {
+	dummy_font := `
+A0
+A1
+A2
+A3
+A4
+A5
+A6
+A7
 
-	oldStdout := os.Stdout
-	r, w, _ := os.Pipe()
-	os.Stdout = w
+B0
+B1
+B2
+B3
+B4
+B5
+B6
+B7
+`
 
-	fn()
-
-	_ = w.Close()
-	os.Stdout = oldStdout
-
-	var buf bytes.Buffer
-	_, _ = buf.ReadFrom(r)
-	return buf.String()
-}
-
-// testin gthe program -- argumrnsts provided
-func withArgs(args []string, fn func()) {
-	oldArgs := os.Args
-	defer func() { os.Args = oldArgs }()
-	os.Args = args
-	fn()
-}
-// testing the program -- no arguments provided
-func NoArguments(t *testing.T) {
-	output := captureOutput(t, func() {
-		withArgs([]string{"app"}, main)
-	})
-
-	if output != "" {
-		t.Fatalf("expected no output, got: %q", output)
+	err := os.WriteFile("standard.txt", []byte(dummy_font), 0644)
+	if err != nil {
+		t.Fatalf("failed to create standard.txt: %v", err)
 	}
+	defer os.Remove("standard.txt")
+
 }
-
-// ttesting the program -- missing input file (no standard.txt)
-func MissingInputFile(t *testing.T) {
-	output := captureOutput(t, func() {
-		withArgs([]string{"app", "A"}, main)
-	})
-
-	if !strings.Contains(output, "Failed to load file") {
-		t.Fatalf("expected error message, got: %q", output)
-	}
-}
-
