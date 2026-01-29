@@ -92,14 +92,19 @@ func TestMainExec(t *testing.T) {
 	// Build program once
 	bin := buildBinary(t, tmpDir)
 
-	t.Run("each character individually", func(t *testing.T) {
+	t.Run("each character", func(t *testing.T) {
 		for r := firstChar; r <= lastChar; r++ {
-			out := runProgram(t, bin, tmpDir, string(r))
-			exp := expectedSingleChar(r)
+			// running tests in parallel
+			t.Run(string(r), func(t *testing.T) {
+				t.Parallel()
 
-			if out != exp {
-				t.Fatalf("char %q: expected %q, got %q", r, exp, out)
-			}
+				out := runProgram(t, bin, tmpDir, string(r))
+				exp := expectedSingleChar(r)
+
+				if out != exp {
+					t.Fatalf("expected %q got %q", exp, out)
+				}
+			})
 		}
 	})
 
